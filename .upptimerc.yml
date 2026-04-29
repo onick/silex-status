@@ -44,7 +44,7 @@ sites:
 status-website:
   cname: status.silexpms.com
   baseUrl: /
-  logoUrl: ""
+  logoUrl: "https://raw.githubusercontent.com/onick/silex-status/main/icon.svg"
   name: Silex PMS Status
   introTitle: Silex PMS — Estado del servicio
   introMessage: |
