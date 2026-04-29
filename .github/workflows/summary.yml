@@ -1,0 +1,16 @@
+name: Summary CI
+on:
+  repository_dispatch:
+    types: [summary]
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: upptime/uptime-monitor@master
+        with:
+          command: "summary"
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}

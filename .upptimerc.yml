@@ -1,0 +1,71 @@
+# Upptime config for Silex PMS — public uptime monitor.
+# Driven by GitHub Actions: every 5 minutes, GH workers hit each `url`
+# from outside our infrastructure (independent of Cloudflare). When
+# something goes down, GH generates an issue + commit graph + email.
+# See: https://upptime.js.org
+
+owner: onick
+repo: silex-status
+
+sites:
+  - name: API (pms-api.silexpms.com)
+    url: https://pms-api.silexpms.com/health
+    expectedStatusCodes:
+      - 200
+    body: '"status":"healthy"'
+  - name: SaaS Owner Console
+    url: https://admin.silexpms.com
+    expectedStatusCodes:
+      - 200
+      - 307
+  - name: Tenant routing canary (Los Limones)
+    url: https://loslimones.silexpms.com/login
+    expectedStatusCodes:
+      - 200
+      - 401
+      - 307
+  - name: Real customer (Doña Chava)
+    url: https://donachava.silexpms.com/login
+    expectedStatusCodes:
+      - 200
+      - 401
+      - 307
+  - name: Mirror (Hostinger warm-spare)
+    url: https://mirror.silexpms.com/__nginx-health
+    expectedStatusCodes:
+      - 200
+  - name: Replication health
+    url: https://pms-api.silexpms.com/api/replication-health
+    expectedStatusCodes:
+      - 200
+      - 503  # 503 means degraded; still want to see the trend
+    body: '"role":"primary"'
+
+status-website:
+  cname: status.silexpms.com
+  baseUrl: /
+  logoUrl: ""
+  name: Silex PMS Status
+  introTitle: Silex PMS — Estado del servicio
+  introMessage: |
+    Monitoreo independiente fuera de nuestra infraestructura.
+    Detección cada 5 minutos. Histórico público.
+  navbar:
+    - title: Status
+      href: /
+    - title: GitHub
+      href: https://github.com/onick/silex-status
+
+# Auto-issue creation when a site goes down. Avoids us having to read
+# emails — issues are visible from any browser.
+notifications:
+  - type: discord
+    # (optional) DISCORD_WEBHOOK_URL secret enables Discord notifications.
+    # Leave blank to skip; GH issue will still be created.
+
+# Don't auto-commit measurement noise; let the workflow batch every 5 min.
+commitMessages:
+  readmeContent: ":pencil: Update summary in README [skip ci]"
+  summaryJson: ":card_file_box: Update status summary [skip ci]"
+  statusChange: "$EMOJI $SITE_NAME is $STATUS ($RESPONSE_CODE in $RESPONSE_TIME ms) [skip ci]"
+  graphsUpdate: ":bar_chart: Update graphs [skip ci]"
