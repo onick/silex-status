@@ -1,16 +1,26 @@
-name: Uptime CI
+name: uptime CI
 on:
   repository_dispatch:
     types: [uptime]
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: "*/5 * * * *
+0 23 * * *
+0 0 * * *"
   workflow_dispatch:
+permissions:
+  contents: write
+  issues: write
+  pages: write
 jobs:
   release:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
       - uses: upptime/uptime-monitor@master
         with:
-          command: "update"
+          command: "update
+site"
         env:
           GH_PAT: ${{ secrets.GH_PAT }}

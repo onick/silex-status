@@ -1,14 +1,21 @@
-name: Static Site CI
+name: static CI
 on:
   repository_dispatch:
-    types: [static-site]
+    types: [static]
   schedule:
     - cron: "0 1 * * *"
   workflow_dispatch:
+permissions:
+  contents: write
+  issues: write
+  pages: write
 jobs:
   release:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
       - uses: upptime/uptime-monitor@master
         with:
           command: "site"
