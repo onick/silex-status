@@ -1,7 +1,7 @@
-name: static CI
+name: Static Site CI
 on:
   repository_dispatch:
-    types: [static]
+    types: [static-site]
   schedule:
     - cron: "0 1 * * *"
   workflow_dispatch:
